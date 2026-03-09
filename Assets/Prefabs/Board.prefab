@@ -48,4 +48,4 @@ MonoBehaviour:
   height: 6
   cellSize: 1
   gridSpacing: 1
-  blockPrefab: {fileID: 8871564620578005104, guid: ecf0a37ed790c8f4f98b09246dfa8aeb, type: 3}
+  _exitDistanceInCells: 10

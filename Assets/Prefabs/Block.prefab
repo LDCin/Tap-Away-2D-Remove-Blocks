@@ -52,8 +52,9 @@ MonoBehaviour:
   _direction: 3
   _arrowRenderer: {fileID: 772576522830591298}
   _arrowSprite: {fileID: 21300000, guid: 985e9f1ba9c85df47bd50bd0b9aec7a2, type: 3}
-  _slideDuration: 0.2
-  _slideEase: 6
+  _slideDuration: 0.5
+  _maxSlideDuration: 4
+  _slideEase: 5
 --- !u!212 &9074564687844013918
 SpriteRenderer:
   m_ObjectHideFlags: 0

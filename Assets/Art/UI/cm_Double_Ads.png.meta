@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -144,7 +144,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 667
+        width: 95
         height: 81
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -156,6 +156,138 @@ TextureImporter:
       bones: []
       spriteID: bfdf88f3b6db7ad70800000000000000
       internalID: 9054413844176764411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cm_Double_Ads_1
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 94
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4810e17d9acd3424ba3691447f921de7
+      internalID: -1407509283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cm_Double_Ads_2
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 0
+        width: 94
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2369142328cadff4a93b51f65921766a
+      internalID: -555030049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cm_Double_Ads_3
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 0
+        width: 94
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9ba219a32b143c4b8b9934b23d72ff8
+      internalID: 950908556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cm_Double_Ads_4
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 0
+        width: 95
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db0e2f9fd6d61d64ea80e8ebe3afdaa8
+      internalID: -98159620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cm_Double_Ads_5
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 0
+        width: 95
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46d3aab480df44b449924e66b3dc2f3b
+      internalID: 1335359651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cm_Double_Ads_6
+      rect:
+        serializedVersion: 2
+        x: 571
+        y: 0
+        width: 96
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 941bae66617dfef4499ad2fe1ae19753
+      internalID: 1457115030
       vertices: []
       indices: 
       edges: []
@@ -175,6 +307,12 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       cm_Double_Ads_0: 9054413844176764411
+      cm_Double_Ads_1: -1407509283
+      cm_Double_Ads_2: -555030049
+      cm_Double_Ads_3: 950908556
+      cm_Double_Ads_4: -98159620
+      cm_Double_Ads_5: 1335359651
+      cm_Double_Ads_6: 1457115030
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

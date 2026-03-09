@@ -7,25 +7,29 @@ namespace Scripts
     {
         private List<BlockData> _blockDatas;
         private List<Block> _blocks;
+
         [SerializeField] private Block _blockPrefab;
+
         private bool _isInitialized = false;
+
         public void Init()
         {
-            if (_isInitialized) return;
-            
+            if (_isInitialized)
+            {
+                return;
+            }
+
             _blockDatas = new List<BlockData>(Resources.LoadAll<BlockData>(GameConfig.BLOCK_DATA_PATH));
-            Debug.Log("BlockPool: Loaded BlockData count: " + _blockDatas.Count);
-            
             if (_blockDatas.Count == 0)
             {
                 return;
             }
-            
+
             _blocks = new List<Block>();
             InitBlockList();
             _isInitialized = true;
-            Debug.Log("BlockPool: Initialized with " + _blocks.Count + " blocks");
         }
+
         private void InitBlockList()
         {
             _blocks = new List<Block>();
@@ -60,12 +64,9 @@ namespace Scripts
         {
             foreach (var block in _blocks)
             {
-                if (!block.gameObject.activeInHierarchy)
+                if (!block.gameObject.activeInHierarchy && block.ColorID == colorId)
                 {
-                    if (block.ColorID == colorId)
-                    {
-                        return block;
-                    }
+                    return block;
                 }
             }
 

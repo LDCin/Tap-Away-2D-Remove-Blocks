@@ -12,13 +12,18 @@ namespace Scripts
         [SerializeField] private SpriteRenderer _arrowRenderer;
         [SerializeField] private Sprite _arrowSprite;
         [SerializeField, Min(0.01f)] private float _slideDuration = 0.2f;
-        [SerializeField] private Ease _slideEase = Ease.OutQuad;
+        [SerializeField, Min(0.1f)] private float _maxSlideDuration = 1.4f;
+        [SerializeField] private Ease _slideEase = Ease.InCubic;
 
         public Vector2Int BoardPos => _boardPos;
         public Direction Direction => _direction;
+
         private int _colorId;
         public int ColorID => _colorId;
+
         private SpriteRenderer _spriteRenderer;
+        private Collider2D _collider2D;
+        private Camera _mainCamera;
         private Board _board;
         private Tween _slideTween;
         private bool _isMoving;
@@ -28,12 +33,8 @@ namespace Scripts
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-
-            if (_arrowRenderer != null && _arrowSprite != null && _arrowRenderer.sprite == null)
-            {
-                _arrowRenderer.sprite = _arrowSprite;
-            }
-
+            _collider2D = GetComponent<Collider2D>();
+            _mainCamera = Camera.main;
             RefreshArrowVisual();
         }
 
@@ -50,18 +51,19 @@ namespace Scripts
             RefreshArrowVisual();
         }
 
+        public void SetCellVisualSize(float targetCellSize)
+        {
+            Vector2 spriteSize = _spriteRenderer.sprite.bounds.size;
+
+            float safeSize = targetCellSize;
+            float scaleX = safeSize / spriteSize.x;
+            float scaleY = safeSize / spriteSize.y; 
+            float newScale = Mathf.Min(scaleX, scaleY);
+            transform.localScale = Vector3.one * newScale;
+        }
+
         private void RefreshArrowVisual()
         {
-            if (_arrowRenderer == null)
-            {
-                return;
-            }
-
-            if (_arrowRenderer.sprite == null && _arrowSprite != null)
-            {
-                _arrowRenderer.sprite = _arrowSprite;
-            }
-
             float zAngle = DirectionToZ(_direction);
             _arrowRenderer.transform.localRotation = Quaternion.Euler(0f, 0f, zAngle);
         }
@@ -98,8 +100,11 @@ namespace Scripts
             _slideTween?.Kill();
             _isMoving = true;
 
-            _slideTween = transform
-                .DOMove(worldTarget, _slideDuration)
+            float distance = Vector3.Distance(transform.position, worldTarget);
+            float duration = _slideDuration * Mathf.Sqrt(Mathf.Max(1f, distance));
+            duration = Mathf.Clamp(duration, _slideDuration, _maxSlideDuration);
+
+            _slideTween = transform.DOMove(worldTarget, duration)
                 .SetEase(_slideEase)
                 .OnComplete(() =>
                 {
@@ -135,7 +140,7 @@ namespace Scripts
             }
         }
 
-        public void SetBoardManager(Board board)
+        public void SetBoard(Board board)
         {
             _board = board;
         }
@@ -147,38 +152,42 @@ namespace Scripts
             _slideTween = null;
         }
 
-        private void OnMouseDown()
+        private void Update()
         {
             if (!isActiveAndEnabled || _isMoving)
             {
                 return;
             }
 
-            if (_board == null)
+            if (!Input.GetMouseButtonDown(0))
             {
-                _board = FindFirstObjectByType<Board>();
+                return;
             }
 
-            if (_board != null)
+            if (UIHelper.Instance != null && UIHelper.Instance.IsPointerOverUI())
+            {
+                return;
+            }
+
+            if (_board == null || _collider2D == null)
+            {
+                return;
+            }
+
+            if (_mainCamera == null)
+            {
+                _mainCamera = Camera.main;
+                if (_mainCamera == null)
+                {
+                    return;
+                }
+            }
+
+            Vector3 mouseWorld = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 point = new Vector2(mouseWorld.x, mouseWorld.y);
+            if (_collider2D.OverlapPoint(point))
             {
                 _board.TrySlideBlock(this);
-            }
-        }
-
-        private static Vector2Int DirectionToStep(Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Right:
-                    return Vector2Int.right;
-                case Direction.Left:
-                    return Vector2Int.left;
-                case Direction.Up:
-                    return Vector2Int.up;
-                case Direction.Down:
-                    return Vector2Int.down;
-                default:
-                    return Vector2Int.zero;
             }
         }
     }
