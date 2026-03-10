@@ -61,51 +61,51 @@ MonoBehaviour:
     blockFillRatio: 0.95
     moveLimit: 15
     blocks:
-    - colorId: 0
+    - colorId: 1
       direction: 0
       boardPos: {x: 0, y: 3}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 0
       boardPos: {x: 0, y: 2}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 0
       boardPos: {x: 0, y: 1}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 0
       boardPos: {x: 0, y: 0}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 1
       boardPos: {x: 3, y: 3}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 1
       boardPos: {x: 3, y: 2}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 1
       boardPos: {x: 3, y: 0}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 1
       boardPos: {x: 3, y: 1}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 2
       boardPos: {x: 1, y: 2}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 2
       boardPos: {x: 2, y: 2}
       shape: 0
-    - colorId: 0
-      direction: 3
+    - colorId: 1
+      direction: 0
       boardPos: {x: 1, y: 1}
       shape: 0
-    - colorId: 0
+    - colorId: 1
       direction: 3
       boardPos: {x: 2, y: 1}
       shape: 0
@@ -145,53 +145,139 @@ MonoBehaviour:
     blockFillRatio: 0.95
     moveLimit: 6
     blocks:
-    - colorId: 0
+    - colorId: 2
       direction: 3
       boardPos: {x: 2, y: 1}
       shape: 0
-    - colorId: 0
+    - colorId: 2
       direction: 2
       boardPos: {x: 0, y: 1}
       shape: 0
-    - colorId: 0
+    - colorId: 2
       direction: 0
       boardPos: {x: 1, y: 2}
       shape: 0
-    - colorId: 0
+    - colorId: 2
       direction: 1
       boardPos: {x: 1, y: 0}
       shape: 0
-    - colorId: 0
+    - colorId: 2
       direction: 2
       boardPos: {x: 1, y: 1}
       shape: 0
-  - width: 6
-    height: 6
+    - colorId: 2
+      direction: 2
+      boardPos: {x: 2, y: 2}
+      shape: 0
+  - width: 3
+    height: 3
     screenPadding: 1.2
     blockFillRatio: 0.95
     moveLimit: 20
     blocks:
     - colorId: 0
       direction: 0
-      boardPos: {x: 2, y: 1}
-      shape: 0
-    - colorId: 0
-      direction: 0
-      boardPos: {x: 3, y: 1}
-      shape: 0
-    - colorId: 0
-      direction: 0
-      boardPos: {x: 4, y: 1}
-      shape: 0
-    - colorId: 0
-      direction: 0
-      boardPos: {x: 1, y: 1}
+      boardPos: {x: 1, y: 2}
       shape: 0
     - colorId: 0
       direction: 2
-      boardPos: {x: 1, y: 4}
+      boardPos: {x: 2, y: 2}
       shape: 0
     - colorId: 0
       direction: 3
-      boardPos: {x: 4, y: 4}
+      boardPos: {x: 1, y: 1}
+      shape: 0
+    - colorId: 0
+      direction: 1
+      boardPos: {x: 2, y: 1}
+      shape: 0
+    - colorId: 0
+      direction: 2
+      boardPos: {x: 2, y: 0}
+      shape: 0
+    - colorId: 0
+      direction: 1
+      boardPos: {x: 1, y: 0}
+      shape: 0
+    - colorId: 0
+      direction: 0
+      boardPos: {x: 0, y: 1}
+      shape: 0
+    - colorId: 0
+      direction: 2
+      boardPos: {x: 0, y: 2}
+      shape: 0
+    - colorId: 0
+      direction: 2
+      boardPos: {x: 0, y: 0}
+      shape: 0
+  - width: 4
+    height: 4
+    screenPadding: 1.2
+    blockFillRatio: 0.95
+    moveLimit: 20
+    blocks:
+    - colorId: 2
+      direction: 2
+      boardPos: {x: 3, y: 3}
+      shape: 0
+    - colorId: 2
+      direction: 2
+      boardPos: {x: 2, y: 3}
+      shape: 0
+    - colorId: 2
+      direction: 2
+      boardPos: {x: 1, y: 3}
+      shape: 0
+    - colorId: 2
+      direction: 0
+      boardPos: {x: 0, y: 3}
+      shape: 0
+    - colorId: 2
+      direction: 0
+      boardPos: {x: 0, y: 2}
+      shape: 0
+    - colorId: 2
+      direction: 0
+      boardPos: {x: 0, y: 1}
+      shape: 0
+    - colorId: 2
+      direction: 0
+      boardPos: {x: 0, y: 0}
+      shape: 0
+    - colorId: 2
+      direction: 3
+      boardPos: {x: 1, y: 0}
+      shape: 0
+    - colorId: 2
+      direction: 3
+      boardPos: {x: 2, y: 0}
+      shape: 0
+    - colorId: 2
+      direction: 3
+      boardPos: {x: 3, y: 0}
+      shape: 0
+    - colorId: 2
+      direction: 1
+      boardPos: {x: 3, y: 2}
+      shape: 0
+    - colorId: 2
+      direction: 1
+      boardPos: {x: 3, y: 1}
+      shape: 0
+    - colorId: 2
+      direction: 2
+      boardPos: {x: 1, y: 2}
+      shape: 0
+    - colorId: 2
+      direction: 3
+      boardPos: {x: 2, y: 2}
+      shape: 0
+    - colorId: 2
+      direction: 1
+      boardPos: {x: 2, y: 1}
+      shape: 0
+    - colorId: 2
+      direction: 1
+      boardPos: {x: 1, y: 1}
       shape: 0

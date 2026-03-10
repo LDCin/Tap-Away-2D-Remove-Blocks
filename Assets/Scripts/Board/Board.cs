@@ -202,7 +202,7 @@ namespace Scripts
             {
                 NotifyMoveCommitted();
                 Block blocker = board[next.x, next.y];
-                // blocker?.PlayBlockedFeedback();
+                blocker?.PlayBlockedFeedback();
                 return false;
             }
 

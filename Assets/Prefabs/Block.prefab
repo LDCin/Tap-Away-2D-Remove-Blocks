@@ -57,6 +57,11 @@ MonoBehaviour:
   _slideDuration: 0.5
   _maxSlideDuration: 4
   _slideEase: 5
+  _blockedShakeDuration: 0.16
+  _blockedShakeStrength: 0.08
+  _blockedShakeVibrato: 18
+  _blockedFlashDuration: 0.08
+  _blockedFlashColor: {r: 1, g: 0.25, b: 0.25, a: 1}
 --- !u!114 &2729103481851652569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,7 +78,7 @@ MonoBehaviour:
   _trailRenderer: {fileID: 2108633290682625530}
   headAlpha: 1
   tailAlpha: 0
-  widthMultiplier: 3
+  widthMultiplier: 2.5
   trailTime: 0.3
 --- !u!212 &9074564687844013918
 SpriteRenderer:
@@ -225,7 +230,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 3
+    widthMultiplier: 2.5
     widthCurve:
       serializedVersion: 2
       m_Curve:

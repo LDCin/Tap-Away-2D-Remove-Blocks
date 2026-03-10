@@ -15,6 +15,12 @@ namespace Scripts
         [SerializeField, Min(0.1f)] private float _maxSlideDuration = 1.4f;
         [SerializeField] private Ease _slideEase = Ease.InCubic;
 
+        [SerializeField, Min(0.01f)] private float _blockedShakeDuration = 0.16f;
+        [SerializeField, Min(0.001f)] private float _blockedShakeStrength = 0.08f;
+        [SerializeField, Min(1)] private int _blockedShakeVibrato = 18;
+        [SerializeField, Min(0.01f)] private float _blockedFlashDuration = 0.08f;
+        [SerializeField] private Color _blockedFlashColor = new Color(1f, 0.25f, 0.25f, 1f);
+
         public Vector2Int BoardPos => _boardPos;
         public Direction Direction => _direction;
 
@@ -26,7 +32,10 @@ namespace Scripts
         private Camera _mainCamera;
         private Board _board;
         private Tween _slideTween;
+        private Sequence _blockedFeedbackTween;
         private bool _isMoving;
+        private Color _baseBlockColor = Color.white;
+        private Color _baseArrowColor = Color.white;
 
         public bool IsMoving => _isMoving;
 
@@ -35,6 +44,7 @@ namespace Scripts
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _collider2D = GetComponent<Collider2D>();
             _mainCamera = Camera.main;
+            CacheBaseColors();
             RefreshArrowVisual();
         }
         private void Update()
@@ -78,14 +88,19 @@ namespace Scripts
         private void OnDisable()
         {
             _slideTween?.Kill();
+            _blockedFeedbackTween?.Kill();
             _isMoving = false;
             _slideTween = null;
+            _blockedFeedbackTween = null;
+            ResetVisualState();
         }
 
         public void Init(Sprite sprite, int colorId)
         {
             _spriteRenderer.sprite = sprite;
             _colorId = colorId;
+            CacheBaseColors();
+            ResetVisualState();
             RefreshArrowVisual();
         }
 
@@ -165,6 +180,46 @@ namespace Scripts
             return true;
         }
 
+        public void PlayBlockedFeedback()
+        {
+            if (!isActiveAndEnabled)
+            {
+                return;
+            }
+
+            _blockedFeedbackTween?.Kill();
+            ResetVisualState();
+
+            _blockedFeedbackTween = DOTween.Sequence();
+            _blockedFeedbackTween.Append(transform.DOShakePosition(
+                    _blockedShakeDuration,
+                    _blockedShakeStrength,
+                    _blockedShakeVibrato,
+                    90f,
+                    false,
+                    true))
+                .Join(_spriteRenderer.DOColor(_blockedFlashColor, _blockedFlashDuration))
+                .Append(_spriteRenderer.DOColor(_baseBlockColor, _blockedFlashDuration));
+
+            if (_arrowRenderer != null)
+            {
+                _blockedFeedbackTween.Join(_arrowRenderer.DOColor(_blockedFlashColor, _blockedFlashDuration));
+                _blockedFeedbackTween.Append(_arrowRenderer.DOColor(_baseArrowColor, _blockedFlashDuration));
+            }
+
+            _blockedFeedbackTween.OnComplete(() =>
+            {
+                _blockedFeedbackTween = null;
+                ResetVisualState();
+            });
+
+            _blockedFeedbackTween.OnKill(() =>
+            {
+                _blockedFeedbackTween = null;
+                ResetVisualState();
+            });
+        }
+
         public void SetBoardPos(Vector2Int pos)
         {
             _boardPos = pos;
@@ -173,7 +228,9 @@ namespace Scripts
         public void ReturnToPool()
         {
             _slideTween?.Kill();
+            _blockedFeedbackTween?.Kill();
             _boardPos = new Vector2Int(-1, -1);
+            ResetVisualState();
             if (_destroyOnReturn)
             {
                 Destroy(gameObject);
@@ -187,6 +244,18 @@ namespace Scripts
         public void SetBoard(Board board)
         {
             _board = board;
+        }
+
+        private void CacheBaseColors()
+        {
+            _baseBlockColor = _spriteRenderer.color;
+            _baseArrowColor = _arrowRenderer.color;
+        }
+
+        private void ResetVisualState()
+        {
+            _spriteRenderer.color = _baseBlockColor;
+            _arrowRenderer.color = _baseArrowColor;
         }
     }
 }
