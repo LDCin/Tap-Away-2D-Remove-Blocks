@@ -37,6 +37,50 @@ namespace Scripts
             _mainCamera = Camera.main;
             RefreshArrowVisual();
         }
+        private void Update()
+        {
+            if (!isActiveAndEnabled || _isMoving)
+            {
+                return;
+            }
+
+            if (!Input.GetMouseButtonDown(0))
+            {
+                return;
+            }
+
+            if (UIHelper.Instance != null && UIHelper.Instance.IsPointerOverUI())
+            {
+                return;
+            }
+
+            if (_board == null || _collider2D == null)
+            {
+                return;
+            }
+
+            if (_mainCamera == null)
+            {
+                _mainCamera = Camera.main;
+                if (_mainCamera == null)
+                {
+                    return;
+                }
+            }
+
+            Vector3 mouseWorld = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 point = new Vector2(mouseWorld.x, mouseWorld.y);
+            if (_collider2D.OverlapPoint(point))
+            {
+                _board.TrySlideBlock(this);
+            }
+        }
+        private void OnDisable()
+        {
+            _slideTween?.Kill();
+            _isMoving = false;
+            _slideTween = null;
+        }
 
         public void Init(Sprite sprite, int colorId)
         {
@@ -143,52 +187,6 @@ namespace Scripts
         public void SetBoard(Board board)
         {
             _board = board;
-        }
-
-        private void OnDisable()
-        {
-            _slideTween?.Kill();
-            _isMoving = false;
-            _slideTween = null;
-        }
-
-        private void Update()
-        {
-            if (!isActiveAndEnabled || _isMoving)
-            {
-                return;
-            }
-
-            if (!Input.GetMouseButtonDown(0))
-            {
-                return;
-            }
-
-            if (UIHelper.Instance != null && UIHelper.Instance.IsPointerOverUI())
-            {
-                return;
-            }
-
-            if (_board == null || _collider2D == null)
-            {
-                return;
-            }
-
-            if (_mainCamera == null)
-            {
-                _mainCamera = Camera.main;
-                if (_mainCamera == null)
-                {
-                    return;
-                }
-            }
-
-            Vector3 mouseWorld = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 point = new Vector2(mouseWorld.x, mouseWorld.y);
-            if (_collider2D.OverlapPoint(point))
-            {
-                _board.TrySlideBlock(this);
-            }
         }
     }
 }

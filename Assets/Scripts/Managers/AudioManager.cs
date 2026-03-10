@@ -1,12 +1,13 @@
-﻿using UI.Panels;
+﻿using System;
+using UI.Panels;
 using UnityEngine;
 
 namespace Scripts
 {
     public class AudioManager : Singleton<AudioManager>
     {
-        public static event System.Action<bool> OnBgmStateChanged;
-        public static event System.Action<bool> OnSfxStateChanged;
+        public static event Action<bool> OnBgmStateChanged;
+        public static event Action<bool> OnSfxStateChanged;
 
         [SerializeField] private AudioSource _BGM;
         [SerializeField] private AudioSource _SFX;
@@ -15,7 +16,8 @@ namespace Scripts
         [SerializeField] private AudioClip _clickSound;
         [SerializeField] private AudioClip _gameOverSound;
         [SerializeField] private AudioClip _winSound;
-
+        [SerializeField] private AudioClip _blockMoveSound;
+        [SerializeField] private AudioClip _getCoinSound;
         public override void Awake()
         {
             base.Awake();
@@ -28,13 +30,18 @@ namespace Scripts
             SettingPanel.OnChangeBGMState += ChangeBGMState;
             SettingPanel.OnChangeSFXState += ChangeSFXState;
 
+            SettingPanel.OnChangeBGMState += PlayClickSound;
+            SettingPanel.OnChangeVibrationState += PlayClickSound;
+
             GameplayPanel.OnRestartRequested += PlayClickSound;
             GameplayPanel.OnOpenSettingRequested += PlayClickSound;
+            GameplayPanel.OnUseBombClicked += PlayClickSound;
+            GameplayPanel.OnUseBonusTouchClicked += PlayClickSound;
             GameOverPanel.OnRetryRequested += PlayClickSound;
             SettingPanel.OnResumeRequested += PlayClickSound;
-            WinGamePanel.OnClaimAndNextRequested += PlayClickSound;
+            WinGamePanel.OnClaimAndNextRequested += PlayGetCoinSound;
 
-            GameManager.OnMoveUsed += PlayDefaultSfx;
+            GameManager.OnMoveUsed += PlayBlockMoveSound;
             GameManager.OnGameOverTriggered += PlayGameOverSound;
             GameManager.OnWinTriggered += PlayWinSound;
         }
@@ -44,13 +51,18 @@ namespace Scripts
             SettingPanel.OnChangeBGMState -= ChangeBGMState;
             SettingPanel.OnChangeSFXState -= ChangeSFXState;
 
+            SettingPanel.OnChangeBGMState -= PlayClickSound;
+            SettingPanel.OnChangeVibrationState -= PlayClickSound;
+
             GameplayPanel.OnRestartRequested -= PlayClickSound;
             GameplayPanel.OnOpenSettingRequested -= PlayClickSound;
+            GameplayPanel.OnUseBombClicked -= PlayClickSound;
+            GameplayPanel.OnUseBonusTouchClicked -= PlayClickSound;
             GameOverPanel.OnRetryRequested -= PlayClickSound;
             SettingPanel.OnResumeRequested -= PlayClickSound;
-            WinGamePanel.OnClaimAndNextRequested -= PlayClickSound;
+            WinGamePanel.OnClaimAndNextRequested -= PlayGetCoinSound;
 
-            GameManager.OnMoveUsed -= PlayDefaultSfx;
+            GameManager.OnMoveUsed -= PlayBlockMoveSound;
             GameManager.OnGameOverTriggered -= PlayGameOverSound;
             GameManager.OnWinTriggered -= PlayWinSound;
         }
@@ -77,7 +89,20 @@ namespace Scripts
 
         public void ChangeSFXState()
         {
-            ApplySfxState(GameConfig.SFX_STATE != 1, false);
+            bool willEnable = GameConfig.SFX_STATE != 1;
+
+            // Keep toggle button feedback audible for both ON and OFF transitions.
+            if (!willEnable)
+            {
+                PlayOneShot(_clickSound, true);
+            }
+
+            ApplySfxState(willEnable, false);
+
+            if (willEnable)
+            {
+                PlayOneShot(_clickSound, true);
+            }
         }
 
         public void ChangeBGMState()
@@ -105,13 +130,18 @@ namespace Scripts
             PlayOneShot(_winSound != null ? _winSound : _defaultSFX);
         }
 
+        public void PlayBlockMoveSound()
+        {
+            PlayOneShot(_blockMoveSound != null ? _blockMoveSound : _defaultSFX);
+        }
+
+        public void PlayGetCoinSound()
+        {
+            PlayOneShot(_getCoinSound != null ? _getCoinSound : _defaultSFX);
+        }
+
         private void ApplyBgmState(bool isOn, bool silent)
         {
-            if (_BGM == null)
-            {
-                return;
-            }
-
             _BGM.loop = true;
             _BGM.mute = !isOn;
             if (isOn && !_BGM.isPlaying)
@@ -134,11 +164,6 @@ namespace Scripts
 
         private void ApplySfxState(bool isOn, bool silent)
         {
-            if (_SFX == null)
-            {
-                return;
-            }
-
             _SFX.mute = !isOn;
             PlayerPrefs.SetInt(GameConfig.SFX_STATE_KEY, isOn ? 1 : 0);
             PlayerPrefs.Save();
@@ -153,9 +178,14 @@ namespace Scripts
             }
         }
 
-        private void PlayOneShot(AudioClip clip)
+        private void PlayOneShot(AudioClip clip, bool ignoreSfxState = false)
         {
-            if (_SFX == null || clip == null || GameConfig.SFX_STATE != 1)
+            if (_SFX == null || clip == null)
+            {
+                return;
+            }
+
+            if (!ignoreSfxState && GameConfig.SFX_STATE != 1)
             {
                 return;
             }

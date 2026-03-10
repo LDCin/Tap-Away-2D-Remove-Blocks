@@ -9,6 +9,8 @@ namespace UI.Panels
     {
         public static event Action OnRestartRequested;
         public static event Action OnOpenSettingRequested;
+        public static event Action OnUseBombClicked;
+        public static event Action OnUseBonusTouchClicked;
         public static event Action<int> OnUseBonusTouchRequested;
 
         [SerializeField] private TextMeshProUGUI _coinText;
@@ -85,6 +87,8 @@ namespace UI.Panels
 
         public void UseBomb()
         {
+            OnUseBombClicked?.Invoke();
+
             _bombQuantity = Mathf.Max(0, _bombQuantity - 1);
             UpdateBombQuantityText(_bombQuantity);
             PlayerPrefs.SetInt(GameConfig.BOMB_ITEM, _bombQuantity);
@@ -92,6 +96,8 @@ namespace UI.Panels
 
         public void UseBonusTouch()
         {
+            OnUseBonusTouchClicked?.Invoke();
+
             if (_bonusTouchQuantity <= 0)
             {
                 return;
